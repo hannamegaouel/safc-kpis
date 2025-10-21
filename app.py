@@ -23,10 +23,7 @@ def load_data():
 try:
     df = load_data()
     
-  # Debug: Show available columns
-    st.sidebar.markdown("---")
-    with st.sidebar.expander("🔍 Debug: Available columns"):
-        st.write(df.columns.tolist())
+ 
     
     # Check if 'value' column exists (case-insensitive)
     value_col = None
@@ -54,6 +51,7 @@ except Exception as e:
 # FILTRES DANS LA SIDEBAR
 # =============================================
 
+st.sidebar.header("🔍 Filters")
 
 # Filtre 1: Statut de sélection
 selection_filter = st.sidebar.multiselect(
@@ -342,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
