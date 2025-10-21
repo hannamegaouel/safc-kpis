@@ -257,12 +257,11 @@ from matplotlib.patches import Patch
 import matplotlib.lines as mlines
 
 legend_elements = [
-    Patch(facecolor='#2E7D32', alpha=0.4, label='Dark Green (Value Creation)'),
-    Patch(facecolor='#C8E6C9', alpha=0.6, label='Light Green (Performance players)'),
-    Patch(facecolor='#FFE0B2', alpha=0.6, label='Light Orange (To monitor)'),
-    Patch(facecolor='#FFCDD2', alpha=0.8, label='Red (Never Selected)'),
-    mlines.Line2D([], [], color='black', linestyle='--', linewidth=2, 
-                  label='Threshold Line')
+    Patch(facecolor='#2E7D32', alpha=0.4, label='Value Creation'),
+    Patch(facecolor='#C8E6C9', alpha=0.6, label='Performance zone'),
+    Patch(facecolor='#FFE0B2', alpha=0.6, label='To monitor'),
+    Patch(facecolor='#FFCDD2', alpha=0.8, label='Never Selected'),
+   )
 ]
 ax.legend(handles=legend_elements, loc='upper left', fontsize=10, framealpha=0.95)
 
@@ -340,6 +339,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
