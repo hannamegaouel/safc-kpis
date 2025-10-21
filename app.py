@@ -123,7 +123,7 @@ def get_player_zone(row):
         return "Red"
     elif age <= 22:
         return "Dark Green"
-    elif age >= 22 and age < 28:
+    elif age > 22 and age < 28:
         # Calcul du threshold pour cette tranche d'âge
         threshold = 10 + (age - 22) * 5  # 10% à 22 ans, augmente de 5% par an
         if playtime >= threshold:
@@ -339,6 +339,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
