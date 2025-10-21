@@ -197,7 +197,7 @@ if show_zone_values:
     light_green_value = zone_values.get('Light Green', 0)
     light_green_count = zone_counts.get('Light Green', 0)
     if light_green_count > 0:
-        ax.text(31, 75, f'€{light_green_value:,.0f}M\n({light_green_count} joueurs)', 
+        ax.text(31, 75, f'€{light_green_value:,.0f}M\n({light_green_count} players)', 
                 fontsize=11, weight='bold', color='green', ha='center',
                 bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
                          edgecolor='green', linewidth=2))
@@ -206,7 +206,7 @@ if show_zone_values:
     orange_value = zone_values.get('Orange', 0)
     orange_count = zone_counts.get('Orange', 0)
     if orange_count > 0:
-        ax.text(30, 20, f'€{orange_value:,.0f}M\n({orange_count} joueurs)', 
+        ax.text(30, 20, f'€{orange_value:,.0f}M\n({orange_count} players)', 
                 fontsize=11, weight='bold', color='darkorange', ha='center',
                 bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
                          edgecolor='darkorange', linewidth=2))
@@ -215,7 +215,7 @@ if show_zone_values:
     red_value = zone_values.get('Red', 0)
     red_count = zone_counts.get('Red', 0)
     if red_count > 0:
-        ax.text(26, -6, f'€{red_value:,.0f}M\n({red_count} joueurs)', 
+        ax.text(26, -6, f'€{red_value:,.0f}M\n({red_count} players)', 
                 fontsize=10, weight='bold', color='darkred', ha='center',
                 bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
                          edgecolor='darkred', linewidth=2))
@@ -228,11 +228,11 @@ for idx, row in df_filtered.iterrows():
     y = row['playing_time_pct_PL']
     line_length = row['Time']
     
-    # Orange line extending LEFT
+    #  line extending LEFT
     ax.plot([x - line_length, x], [y, y], 
-            color='orange', linewidth=3, alpha=0.6, zorder=4)
+            color='grey', linewidth=3, alpha=0.6, zorder=4)
     
-    # Blue dot
+    #  dot
     ax.scatter(x, y, s=150, c='blue', 
                edgecolors='black', linewidths=2, zorder=5)
     
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
