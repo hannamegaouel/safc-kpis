@@ -126,7 +126,7 @@ def get_player_zone(row):
         
     elif age > 22 and age < 28:
         # Calcul du threshold pour cette tranche d'âge
-        threshold = (age) * 1.4  
+        threshold = 0 + (age - 22) * (40/6)  # 0% à 22 ans, 40% à 28 ans (augmente de ~6.67% par an)
         if playtime >= threshold:
             return "Dark Green"
         else:
@@ -163,9 +163,9 @@ ax.axhspan(0, 100, color='#FFCDD2', alpha=0.5, zorder=0)
 # Layer 2: LIGHT ORANGE
 ax.axhspan(0, 100, color='#FFE0B2', alpha=0.6, zorder=1)
 
-# Create smooth diagonal line from (22, 10%) to (28, 40%)
+# Create smooth diagonal line from (22, 0%) to (28, 40%)
 ages_smooth = np.linspace(22, 28, 100)
-thresholds_smooth = np.interp(ages_smooth, [22, 28], [10, 40])
+thresholds_smooth = np.interp(ages_smooth, [22, 28], [0, 40])
 
 # Layer 3: DARK GREEN - Combined zone
 ages_green = np.concatenate([[18], [22], ages_smooth])
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
