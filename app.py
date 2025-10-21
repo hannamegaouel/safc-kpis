@@ -9,7 +9,6 @@ import numpy as np
 st.set_page_config(page_title="Value Creation Analysis", page_icon="⚽", layout="wide")
 
 st.title("⚽ Value Creation Analysis")
-st.subheader("50% of our players under contract are creating value")
 
 # =============================================
 # CHARGER LES DONNÉES
@@ -264,9 +263,9 @@ import matplotlib.lines as mlines
 
 legend_elements = [
     Patch(facecolor='#2E7D32', alpha=0.4, label='Dark Green (Value Creation)'),
-    Patch(facecolor='#C8E6C9', alpha=0.6, label='Light Green (Age 28+ & >40%)'),
-    Patch(facecolor='#FFE0B2', alpha=0.6, label='Light Orange (Performance)'),
-    Patch(facecolor='#FFCDD2', alpha=0.8, label='Red (Not Selected)'),
+    Patch(facecolor='#C8E6C9', alpha=0.6, label='Light Green (Performance players)'),
+    Patch(facecolor='#FFE0B2', alpha=0.6, label='Light Orange (To monitor)'),
+    Patch(facecolor='#FFCDD2', alpha=0.8, label='Red (Never Selected)'),
     mlines.Line2D([], [], color='black', linestyle='--', linewidth=2, 
                   label='Threshold Line')
 ]
@@ -300,7 +299,7 @@ col4.metric("Avg Value", f"€{total_value/total_players:,.1f}M" if total_player
 # TABLEAU DÉTAILLÉ PAR ZONE
 # =============================================
 st.markdown("---")
-st.subheader("📊 Breakdown par zone")
+st.subheader("📊 Breakdown by zone")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -308,37 +307,37 @@ with col1:
     st.markdown("**🟢 Dark Green**")
     dg_count = zone_counts.get('Dark Green', 0)
     dg_value = zone_values.get('Dark Green', 0)
-    st.metric("Joueurs", dg_count)
-    st.metric("Valeur totale", f"€{dg_value:,.0f}M")
+    st.metric("Players", dg_count)
+    st.metric("Total value", f"€{dg_value:,.0f}M")
     if dg_count > 0:
-        st.metric("Valeur moyenne", f"€{dg_value/dg_count:,.1f}M")
+        st.metric("Average value", f"€{dg_value/dg_count:,.1f}M")
 
 with col2:
     st.markdown("**🟩 Light Green**")
     lg_count = zone_counts.get('Light Green', 0)
     lg_value = zone_values.get('Light Green', 0)
-    st.metric("Joueurs", lg_count)
-    st.metric("Valeur totale", f"€{lg_value:,.0f}M")
+    st.metric("Players", lg_count)
+    st.metric("Total value", f"€{lg_value:,.0f}M")
     if lg_count > 0:
-        st.metric("Valeur moyenne", f"€{lg_value/lg_count:,.1f}M")
+        st.metric("Average value", f"€{lg_value/lg_count:,.1f}M")
 
 with col3:
     st.markdown("**🟧 Orange**")
     o_count = zone_counts.get('Orange', 0)
     o_value = zone_values.get('Orange', 0)
-    st.metric("Joueurs", o_count)
-    st.metric("Valeur totale", f"€{o_value:,.0f}M")
+    st.metric("Players", o_count)
+    st.metric("Total value", f"€{o_value:,.0f}M")
     if o_count > 0:
-        st.metric("Valeur moyenne", f"€{o_value/o_count:,.1f}M")
+        st.metric("Average value", f"€{o_value/o_count:,.1f}M")
 
 with col4:
     st.markdown("**🟥 Red**")
     r_count = zone_counts.get('Red', 0)
     r_value = zone_values.get('Red', 0)
     st.metric("Joueurs", r_count)
-    st.metric("Valeur totale", f"€{r_value:,.0f}M")
+    st.metric("Total value", f"€{r_value:,.0f}M")
     if r_count > 0:
-        st.metric("Valeur moyenne", f"€{r_value/r_count:,.1f}M")
+        st.metric("Average value", f"€{r_value/r_count:,.1f}M")
 
 # =============================================
 # AFFICHER LES DONNÉES (optionnel)
@@ -346,3 +345,4 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
