@@ -251,8 +251,6 @@ ax.axhline(y=0, color='black', linewidth=1.5, alpha=0.5, zorder=3)
 
 ax.set_xlabel('Age', fontsize=13, fontweight='bold')
 ax.set_ylabel('Playing Time (%)', fontsize=13, fontweight='bold')
-ax.set_title('Value Creation\n50% of our players under contract are creating value', 
-             fontsize=15, fontweight='bold')
 ax.grid(True, alpha=0.2, zorder=0)
 ax.set_xlim(age_min, age_max)
 ax.set_ylim(-10, 105)
@@ -334,7 +332,7 @@ with col4:
     st.markdown("**🟥 Red**")
     r_count = zone_counts.get('Red', 0)
     r_value = zone_values.get('Red', 0)
-    st.metric("Joueurs", r_count)
+    st.metric("Players", r_count)
     st.metric("Total value", f"€{r_value:,.0f}M")
     if r_count > 0:
         st.metric("Average value", f"€{r_value/r_count:,.1f}M")
@@ -345,4 +343,5 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
