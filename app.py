@@ -23,10 +23,37 @@ def load_data():
 try:
     df = load_data()
     
-  
+  # Debug: Show available columns
+    st.sidebar.markdown("---")
+    with st.sidebar.expander("🔍 Debug: Available columns"):
+        st.write(df.columns.tolist())
+    
+    # Check if 'value' column exists (case-insensitive)
+    value_col = None
+    for col in df.columns:
+        if col.lower() == 'value':
+            value_col = col
+            break
+    
+    if value_col is None:
+        st.error("⚠️ Column 'value' not found in Excel file. Please check your data.")
+        st.info("Available columns: " + ", ".join(df.columns.tolist()))
+        st.stop()
+    
+    # Rename to standardized 'value' if needed
+    if value_col != 'value':
+        df = df.rename(columns={value_col: 'value'})
+    
+except FileNotFoundError:
+    st.error("⚠️ File 'KPI.xlsx' not found. Please upload the file.")
+    st.stop()
+except Exception as e:
+    st.error(f"⚠️ Error loading data: {str(e)}")
+    st.stop()
 # =============================================
 # FILTRES DANS LA SIDEBAR
 # =============================================
+st.sidebar.header("🔍 Filters")
 
 
 # Filtre 1: Statut de sélection
@@ -316,6 +343,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
