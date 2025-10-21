@@ -24,14 +24,14 @@ df = load_data()
 # =============================================
 # FILTRES DANS LA SIDEBAR
 # =============================================
-st.sidebar.header("🔍 Filtres")
+st.sidebar.header("🔍 Filters")
 
 # Filtre 1: Statut de sélection
 selection_filter = st.sidebar.multiselect(
     "Statut de sélection:",
     options=[0, 1],
     default=[0, 1],
-    format_func=lambda x: "✅ Sélectionné" if x == 1 else "❌ Non sélectionné"
+    format_func=lambda x: "✅ Played / bench" if x == 1 else "❌ Never played / bench"
 )
 
 # Filtre 2: Tranche d'âge
@@ -44,7 +44,7 @@ age_range = st.sidebar.slider(
 
 # Filtre 3: Temps de jeu
 playtime_range = st.sidebar.slider(
-    "Temps de jeu (%):",
+    "Playing time (%):",
     min_value=0,
     max_value=100,
     value=(0, 100)
@@ -52,7 +52,7 @@ playtime_range = st.sidebar.slider(
 
 # Filtre 4: Années au club
 time_at_club_range = st.sidebar.slider(
-    "Années au club:",
+    "Years at Club:",
     min_value=int(df['Time'].min()),
     max_value=int(df['Time'].max()),
     value=(int(df['Time'].min()), int(df['Time'].max()))
@@ -60,10 +60,13 @@ time_at_club_range = st.sidebar.slider(
 
 # Filtre 5: Sélection de joueurs spécifiques
 selected_players = st.sidebar.multiselect(
-    "Joueurs spécifiques:",
+    "Players selection:",
     options=sorted(df['Name'].unique().tolist()),
     default=df['Name'].unique().tolist()
 )
+
+# Option: Afficher les valeurs dans les zones
+show_zone_values = st.sidebar.checkbox("Show values by zone", value=True)
 
 # =============================================
 # APPLIQUER LES FILTRES
@@ -78,6 +81,39 @@ df_filtered = df[
     (df['Time'] <= time_at_club_range[1]) &
     (df['Name'].isin(selected_players))
 ]
+
+# =============================================
+# CALCULER LES VALEURS PAR ZONE
+# =============================================
+
+def get_player_zone(row):
+    """Détermine la zone d'un joueur"""
+    age = row['age']
+    playtime = row['playing_time_pct_PL']
+    selection = row['selection']
+    
+    if selection == 0:
+        return "Red"
+    elif age <= 22:
+        return "Dark Green"
+    elif age >= 22 and age < 28:
+        # Calcul du threshold pour cette tranche d'âge
+        threshold = 10 + (age - 22) * 5  # 10% à 22 ans, augmente de 5% par an
+        if playtime >= threshold:
+            return "Dark Green"
+        else:
+            return "Orange"
+    elif age >= 28 and playtime >= 40:
+        return "Light Green"
+    else:
+        return "Orange"
+
+# Ajouter la colonne zone
+df_filtered['zone'] = df_filtered.apply(get_player_zone, axis=1)
+
+# Calculer les valeurs totales par zone
+zone_values = df_filtered.groupby('zone')['value'].sum()
+zone_counts = df_filtered['zone'].value_counts()
 
 # Afficher le nombre de joueurs filtrés
 st.sidebar.markdown("---")
@@ -115,6 +151,47 @@ ax.fill_between([28, 35], 40, 100, color='#C8E6C9', alpha=0.6, zorder=2)
 # Threshold lines
 ax.plot(ages_smooth, thresholds_smooth, 'k--', linewidth=2.5, alpha=0.7, zorder=3)
 ax.plot([28, 35], [40, 40], 'k--', linewidth=2.5, alpha=0.7, zorder=3)
+
+# =============================================
+# AFFICHER LES VALEURS PAR ZONE
+# =============================================
+if show_zone_values and 'value' in df_filtered.columns:
+    
+    # Zone Dark Green (jeunes)
+    dark_green_value = zone_values.get('Dark Green', 0)
+    dark_green_count = zone_counts.get('Dark Green', 0)
+    if dark_green_count > 0:
+        ax.text(20, 70, f'€{dark_green_value:,.0f}M\n({dark_green_count} joueurs)', 
+                fontsize=12, weight='bold', color='darkgreen', ha='center',
+                bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
+                         edgecolor='darkgreen', linewidth=2))
+    
+    # Zone Light Green (28+)
+    light_green_value = zone_values.get('Light Green', 0)
+    light_green_count = zone_counts.get('Light Green', 0)
+    if light_green_count > 0:
+        ax.text(31, 75, f'€{light_green_value:,.0f}M\n({light_green_count} joueurs)', 
+                fontsize=11, weight='bold', color='green', ha='center',
+                bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
+                         edgecolor='green', linewidth=2))
+    
+    # Zone Orange
+    orange_value = zone_values.get('Orange', 0)
+    orange_count = zone_counts.get('Orange', 0)
+    if orange_count > 0:
+        ax.text(30, 20, f'€{orange_value:,.0f}M\n({orange_count} joueurs)', 
+                fontsize=11, weight='bold', color='darkorange', ha='center',
+                bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
+                         edgecolor='darkorange', linewidth=2))
+    
+    # Zone Red
+    red_value = zone_values.get('Red', 0)
+    red_count = zone_counts.get('Red', 0)
+    if red_count > 0:
+        ax.text(26, -6, f'€{red_value:,.0f}M\n({red_count} joueurs)', 
+                fontsize=10, weight='bold', color='darkred', ha='center',
+                bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
+                         edgecolor='darkred', linewidth=2))
 
 # =============================================
 # PLOT PLAYERS (AVEC DONNÉES FILTRÉES)
@@ -175,19 +252,66 @@ st.pyplot(fig)
 # STATISTIQUES
 # =============================================
 st.markdown("---")
+
+# Statistiques principales
 col1, col2, col3, col4 = st.columns(4)
 
 total_players = len(df_filtered)
 selected = len(df_filtered[df_filtered['selection'] == 1])
-not_selected = len(df_filtered[df_filtered['selection'] == 0])
+total_value = df_filtered['value'].sum() if 'value' in df_filtered.columns else 0
 
 col1.metric("Total Players", total_players)
 col2.metric("Selected", selected, f"{selected/total_players*100:.0f}%" if total_players > 0 else "0%")
-col3.metric("Avg Age", f"{df_filtered['age'].mean():.1f}" if total_players > 0 else "N/A")
-col4.metric("Avg Playing Time", f"{df_filtered['playing_time_pct_PL'].mean():.1f}%" if total_players > 0 else "N/A")
+col3.metric("Total Value", f"€{total_value:,.0f}M")
+col4.metric("Avg Value", f"€{total_value/total_players:,.1f}M" if total_players > 0 else "€0M")
+
+# =============================================
+# TABLEAU DÉTAILLÉ PAR ZONE
+# =============================================
+st.markdown("---")
+st.subheader("📊 Breakdown par zone")
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown("**🟢 Dark Green**")
+    dg_count = zone_counts.get('Dark Green', 0)
+    dg_value = zone_values.get('Dark Green', 0)
+    st.metric("Joueurs", dg_count)
+    st.metric("Valeur totale", f"€{dg_value:,.0f}M")
+    if dg_count > 0:
+        st.metric("Valeur moyenne", f"€{dg_value/dg_count:,.1f}M")
+
+with col2:
+    st.markdown("**🟩 Light Green**")
+    lg_count = zone_counts.get('Light Green', 0)
+    lg_value = zone_values.get('Light Green', 0)
+    st.metric("Joueurs", lg_count)
+    st.metric("Valeur totale", f"€{lg_value:,.0f}M")
+    if lg_count > 0:
+        st.metric("Valeur moyenne", f"€{lg_value/lg_count:,.1f}M")
+
+with col3:
+    st.markdown("**🟧 Orange**")
+    o_count = zone_counts.get('Orange', 0)
+    o_value = zone_values.get('Orange', 0)
+    st.metric("Joueurs", o_count)
+    st.metric("Valeur totale", f"€{o_value:,.0f}M")
+    if o_count > 0:
+        st.metric("Valeur moyenne", f"€{o_value/o_count:,.1f}M")
+
+with col4:
+    st.markdown("**🟥 Red**")
+    r_count = zone_counts.get('Red', 0)
+    r_value = zone_values.get('Red', 0)
+    st.metric("Joueurs", r_count)
+    st.metric("Valeur totale", f"€{r_value:,.0f}M")
+    if r_count > 0:
+        st.metric("Valeur moyenne", f"€{r_value/r_count:,.1f}M")
 
 # =============================================
 # AFFICHER LES DONNÉES (optionnel)
 # =============================================
+st.markdown("---")
 if st.checkbox("Show filtered data"):
-    st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection']])
+    st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
