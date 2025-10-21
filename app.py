@@ -17,9 +17,40 @@ st.subheader("50% of our players under contract are creating value")
 @st.cache_data
 def load_data():
     df = pd.read_excel("KPI.xlsx")
+    # Strip whitespace from column names
+    df.columns = df.columns.str.strip()
     return df
 
-df = load_data()
+try:
+    df = load_data()
+    
+    # Debug: Show available columns
+    st.sidebar.markdown("---")
+    with st.sidebar.expander("🔍 Debug: Available columns"):
+        st.write(df.columns.tolist())
+    
+    # Check if 'value' column exists (case-insensitive)
+    value_col = None
+    for col in df.columns:
+        if col.lower() == 'value':
+            value_col = col
+            break
+    
+    if value_col is None:
+        st.error("⚠️ Column 'value' not found in Excel file. Please check your data.")
+        st.info("Available columns: " + ", ".join(df.columns.tolist()))
+        st.stop()
+    
+    # Rename to standardized 'value' if needed
+    if value_col != 'value':
+        df = df.rename(columns={value_col: 'value'})
+    
+except FileNotFoundError:
+    st.error("⚠️ File 'KPI.xlsx' not found. Please upload the file.")
+    st.stop()
+except Exception as e:
+    st.error(f"⚠️ Error loading data: {str(e)}")
+    st.stop()
 
 # =============================================
 # FILTRES DANS LA SIDEBAR
@@ -36,7 +67,7 @@ selection_filter = st.sidebar.multiselect(
 
 # Filtre 2: Tranche d'âge
 age_range = st.sidebar.slider(
-    "Tranche d'âge:",
+    "Age range:",
     min_value=int(df['age'].min()),
     max_value=int(df['age'].max()),
     value=(int(df['age'].min()), int(df['age'].max()))
@@ -155,7 +186,7 @@ ax.plot([28, 35], [40, 40], 'k--', linewidth=2.5, alpha=0.7, zorder=3)
 # =============================================
 # AFFICHER LES VALEURS PAR ZONE
 # =============================================
-if show_zone_values and 'value' in df_filtered.columns:
+if show_zone_values:
     
     # Zone Dark Green (jeunes)
     dark_green_value = zone_values.get('Dark Green', 0)
@@ -258,7 +289,7 @@ col1, col2, col3, col4 = st.columns(4)
 
 total_players = len(df_filtered)
 selected = len(df_filtered[df_filtered['selection'] == 1])
-total_value = df_filtered['value'].sum() if 'value' in df_filtered.columns else 0
+total_value = df_filtered['value'].sum()
 
 col1.metric("Total Players", total_players)
 col2.metric("Selected", selected, f"{selected/total_players*100:.0f}%" if total_players > 0 else "0%")
