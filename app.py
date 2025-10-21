@@ -261,7 +261,7 @@ legend_elements = [
     Patch(facecolor='#C8E6C9', alpha=0.6, label='Performance zone'),
     Patch(facecolor='#FFE0B2', alpha=0.6, label='To monitor'),
     Patch(facecolor='#FFCDD2', alpha=0.8, label='Never Selected'),
-   )
+   
 ]
 ax.legend(handles=legend_elements, loc='upper left', fontsize=10, framealpha=0.95)
 
@@ -339,6 +339,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
