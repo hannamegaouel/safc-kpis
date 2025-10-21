@@ -27,7 +27,7 @@ try:
 # =============================================
 # FILTRES DANS LA SIDEBAR
 # =============================================
-st.sidebar.header("🔍 Filters")
+
 
 # Filtre 1: Statut de sélection
 selection_filter = st.sidebar.multiselect(
@@ -316,6 +316,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
