@@ -53,7 +53,7 @@ except Exception as e:
 
 st.sidebar.header("🔍 Filters")
 
-# Filtre 1: Statut de sélection
+# Filtre 1: Selection
 selection_filter = st.sidebar.multiselect(
     "Statut de sélection:",
     options=[0, 1],
@@ -234,7 +234,7 @@ for idx, row in df_filtered.iterrows():
             color='grey', linewidth=3, alpha=0.6, zorder=4)
     
     #  dot
-    ax.scatter(x, y, s=150, c='blue', 
+    ax.scatter(x, y, s=150, c='black', 
                edgecolors='black', linewidths=2, zorder=5)
     
     # Player name ABOVE the dot
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
