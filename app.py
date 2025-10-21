@@ -243,14 +243,14 @@ for idx, row in df_filtered.iterrows():
 # FORMATTING
 # =============================================
 ax.set_xticks(range(18, 35))
-ax.set_yticks(range(-10, 101, 10))
+ax.set_yticks(range(0, 100, 10))
 ax.axhline(y=0, color='black', linewidth=1.5, alpha=0.5, zorder=3)
 
 ax.set_xlabel('Age', fontsize=13, fontweight='bold')
 ax.set_ylabel('Playing Time (%)', fontsize=13, fontweight='bold')
 ax.grid(True, alpha=0.2, zorder=0)
 ax.set_xlim(age_min, age_max)
-ax.set_ylim(0, 100)
+ax.set_ylim(-10, 100)
 
 # Legend
 from matplotlib.patches import Patch
@@ -339,6 +339,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
