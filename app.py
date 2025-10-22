@@ -158,10 +158,10 @@ age_max = 36
 # BACKGROUND ZONES
 # Layer 1: RED
 ax.axhspan(-25, 0, color='#FFCDD2', alpha=0.8, zorder=0, label='_nolegend_')
-ax.axhspan(0, 100, color='#FFCDD2', alpha=0.5, zorder=0)
+ax.axhspan(0, 105, color='#FFCDD2', alpha=0.5, zorder=0)
 
 # Layer 2: LIGHT ORANGE
-ax.axhspan(0, 100, color='#FFE0B2', alpha=0.6, zorder=1)
+ax.axhspan(0, 105, color='#FFE0B2', alpha=0.6, zorder=1)
 
 # Create smooth diagonal line from (22, 0%) to (28, 40%)
 ages_smooth = np.linspace(22, 28, 100)
@@ -174,7 +174,7 @@ ax.fill_between(ages_green, thresholds_green, 100,
                 color='#2E7D32', alpha=0.4, zorder=2)
 
 # Layer 4: LIGHT GREEN
-ax.fill_between([28, 36], 40, 100, color='#C8E6C9', alpha=0.6, zorder=2)
+ax.fill_between([28, 36], 40, 105, color='#C8E6C9', alpha=0.6, zorder=2)
 
 # Threshold lines
 ax.plot(ages_smooth, thresholds_smooth, 'k--', linewidth=2.5, alpha=0.7, zorder=3)
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
