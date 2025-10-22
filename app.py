@@ -153,11 +153,11 @@ st.sidebar.metric("Joueurs affichés", len(df_filtered), f"sur {len(df)}")
 fig, ax = plt.subplots(figsize=(14, 9))
 
 age_min = 18
-age_max = 35
+age_max = 36
 
 # BACKGROUND ZONES
 # Layer 1: RED
-ax.axhspan(-10, 0, color='#FFCDD2', alpha=0.8, zorder=0, label='_nolegend_')
+ax.axhspan(-25, 0, color='#FFCDD2', alpha=0.8, zorder=0, label='_nolegend_')
 ax.axhspan(0, 100, color='#FFCDD2', alpha=0.5, zorder=0)
 
 # Layer 2: LIGHT ORANGE
@@ -251,7 +251,7 @@ ax.set_xlabel('Age', fontsize=13, fontweight='bold')
 ax.set_ylabel('Playing Time (%)', fontsize=13, fontweight='bold')
 ax.grid(True, alpha=0.2, zorder=0)
 ax.set_xlim(age_min, age_max)
-ax.set_ylim(-10, 100)
+ax.set_ylim(-25, 105)
 
 # Legend
 from matplotlib.patches import Patch
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
