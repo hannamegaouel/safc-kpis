@@ -170,7 +170,7 @@ thresholds_smooth = np.interp(ages_smooth, [22, 28], [0, 40])
 # Layer 3: DARK GREEN - Combined zone
 ages_green = np.concatenate([[18], [22], ages_smooth])
 thresholds_green = np.concatenate([[0], [0], thresholds_smooth])
-ax.fill_between(ages_green, thresholds_green, 100, 
+ax.fill_between(ages_green, thresholds_green, 105, 
                 color='#2E7D32', alpha=0.4, zorder=2)
 
 # Layer 4: LIGHT GREEN
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
