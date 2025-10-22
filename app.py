@@ -239,7 +239,7 @@ for idx, row in df_filtered.iterrows():
             color='grey', linewidth=3, alpha=0.6, zorder=4)
     
     #  dot
-    ax.scatter(x, y, s=150, c='black', 
+    ax.scatter(x, y, s=100, c='black', 
                edgecolors='black', linewidths=2, zorder=5)
     
     # Player name ABOVE the dot
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
