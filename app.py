@@ -178,7 +178,7 @@ ax.fill_between([28, 35], 40, 100, color='#C8E6C9', alpha=0.6, zorder=2)
 
 # Threshold lines
 ax.plot(ages_smooth, thresholds_smooth, 'k--', linewidth=2.5, alpha=0.7, zorder=3)
-ax.plot([28, 35], [40, 40], 'k--', linewidth=2.5, alpha=0.7, zorder=3)
+ax.plot([28, 36], [40, 40], 'k--', linewidth=2.5, alpha=0.7, zorder=3)
 
 # =============================================
 # AFFICHER LES VALEURS PAR ZONE
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
