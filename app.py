@@ -8,7 +8,7 @@ import numpy as np
 # =============================================
 st.set_page_config(page_title="Player Squad Analysis", page_icon="⚽", layout="wide")
 
-st.title("⚽ Value Creation Analysis")
+st.title("⚽ Player Squad Analysis")
 
 # =============================================
 # CHARGER LES DONNÉES
@@ -239,11 +239,11 @@ for idx, row in df_filtered.iterrows():
             color='grey', linewidth=3, alpha=0.6, zorder=4)
     
     #  dot
-    ax.scatter(x, y, s=100, c='black', 
-               edgecolors='black', linewidths=2, zorder=5)
+    ax.scatter(x, y, s=80, c='black', 
+               edgecolors='black', linewidths=1, zorder=5)
     
     # Player name ABOVE the dot
-    ax.text(x, y + 2, row['Name'], fontsize=10, ha='center', va='bottom', zorder=6, fontweight='bold')
+    ax.text(x, y + 2, row['Name'], fontsize=9, ha='center', va='bottom', zorder=6, fontweight='bold')
 
 # =============================================
 # FORMATTING
@@ -252,8 +252,8 @@ ax.set_xticks(range(18, 36))
 ax.set_yticks(range(0, 101, 10))
 ax.axhline(y=0, color='black', linewidth=1.5, alpha=0.5, zorder=3)
 
-ax.set_xlabel('Age', fontsize=13, fontweight='bold')
-ax.set_ylabel('Playing Time (%)', fontsize=13, fontweight='bold')
+ax.set_xlabel('Age', fontsize=15, fontweight='bold')
+ax.set_ylabel('Playing Time (%)', fontsize=15, fontweight='bold')
 ax.grid(True, alpha=0.2, zorder=0)
 ax.set_xlim(age_min, age_max)
 ax.set_ylim(-25, 105)
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
