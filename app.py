@@ -174,7 +174,7 @@ ax.fill_between(ages_green, thresholds_green, 100,
                 color='#2E7D32', alpha=0.4, zorder=2)
 
 # Layer 4: LIGHT GREEN
-ax.fill_between([28, 35], 40, 100, color='#C8E6C9', alpha=0.6, zorder=2)
+ax.fill_between([28, 36], 40, 100, color='#C8E6C9', alpha=0.6, zorder=2)
 
 # Threshold lines
 ax.plot(ages_smooth, thresholds_smooth, 'k--', linewidth=2.5, alpha=0.7, zorder=3)
@@ -243,7 +243,7 @@ for idx, row in df_filtered.iterrows():
 # =============================================
 # FORMATTING
 # =============================================
-ax.set_xticks(range(18, 35))
+ax.set_xticks(range(18, 36))
 ax.set_yticks(range(0, 101, 10))
 ax.axhline(y=0, color='black', linewidth=1.5, alpha=0.5, zorder=3)
 
@@ -340,6 +340,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
