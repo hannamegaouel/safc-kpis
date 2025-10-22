@@ -55,10 +55,10 @@ st.sidebar.header("🔍 Filters")
 
 # Filtre 1: Selection
 selection_filter = st.sidebar.multiselect(
-    "Statut de sélection:",
+    "Ever selected?",
     options=[0, 1],
     default=[0, 1],
-    format_func=lambda x: "✅ Played / bench" if x == 1 else "❌ Never played / bench"
+    format_func=lambda x: "✅ Played / bench" if x == 1 else "❌ Never played nor bench"
 )
 
 # Filtre 2: Tranche d'âge
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
