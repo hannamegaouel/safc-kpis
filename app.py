@@ -243,7 +243,7 @@ for idx, row in df_filtered.iterrows():
                edgecolors='black', linewidths=2, zorder=5)
     
     # Player name ABOVE the dot
-    ax.text(x, y + 3, row['Name'], fontsize=9, ha='center', va='bottom', zorder=6)
+ax.text(x, y + 2, row['Name'], fontsize=11, ha='center', va='bottom', zorder=6, weight='bold')
 
 # =============================================
 # FORMATTING
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
