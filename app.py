@@ -78,12 +78,9 @@ playtime_range = st.sidebar.slider(
 )
 
 # Afficher proprement les valeurs
-min_display = max(0, playtime_range_raw[0])
-max_display = playtime_range_raw[1]
+min_display = max(0, playtime_range[0])
+max_display = playtime_range[1]
 st.sidebar.caption(f"Selected range: {min_display}% to {max_display}%")
-
-# Utiliser la valeur brute pour le filtre
-playtime_range = playtime_range_raw
 
 
 # Filtre 4: Années au club
@@ -349,6 +346,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
