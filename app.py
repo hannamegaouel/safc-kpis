@@ -74,9 +74,11 @@ playtime_range = st.sidebar.slider(
     "Playing time (%):",
     min_value=-25,
     max_value=100,
-    value=(-25, 100),
-    format_func=lambda x: "0" if x < 0 else str(x)
+    value=(-25, 100)
 )
+
+# Afficher les valeurs formatées
+st.sidebar.text(f"Range: {max(0, playtime_range[0])}% - {playtime_range[1]}%")
 
 
 # Filtre 4: Années au club
@@ -342,6 +344,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
