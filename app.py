@@ -72,15 +72,12 @@ age_range = st.sidebar.slider(
 # Filtre 3: Temps de jeu
 playtime_range = st.sidebar.slider(
     "Playing time (%):",
-    min_value=-25,
+    min_value=0,
     max_value=100,
-    value=(-25, 100)
+    value=(0, 100)
 )
 
-# Afficher proprement les valeurs
-min_display = max(0, playtime_range[0])
-max_display = playtime_range[1]
-st.sidebar.caption(f"Selected range: {min_display}% to {max_display}%")
+
 
 
 # Filtre 4: Années au club
@@ -104,17 +101,19 @@ show_zone_values = st.sidebar.checkbox("Show values by zone", value=True)
 # =============================================
 # APPLIQUER LES FILTRES
 # =============================================
+# Ajuster la plage pour inclure les valeurs négatives si min = 0
+min_playtime = -25 if playtime_range[0] == 0 else playtime_range[0]
+
 df_filtered = df[
     (df['selection'].isin(selection_filter)) &
     (df['age'] >= age_range[0]) &
     (df['age'] <= age_range[1]) &
-    (df['playing_time_pct_PL'] >= playtime_range[0]) &
+    (df['playing_time_pct_PL'] >= min_playtime) &
     (df['playing_time_pct_PL'] <= playtime_range[1]) &
     (df['Time'] >= time_at_club_range[0]) &
     (df['Time'] <= time_at_club_range[1]) &
     (df['Name'].isin(selected_players))
 ]
-
 # =============================================
 # CALCULER LES VALEURS PAR ZONE
 # =============================================
@@ -346,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
