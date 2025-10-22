@@ -6,9 +6,9 @@ import numpy as np
 # =============================================
 # CONFIGURATION DE LA PAGE
 # =============================================
-st.set_page_config(page_title="Player Squad Analysis", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="Squad Analysis", page_icon="⚽", layout="wide")
 
-st.title("⚽ Player Squad Analysis")
+st.title("⚽ Squad Analysis")
 
 # =============================================
 # CHARGER LES DONNÉES
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
