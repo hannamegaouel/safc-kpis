@@ -194,7 +194,7 @@ if show_zone_values:
     dark_green_value = zone_values.get('Dark Green', 0)
     dark_green_count = zone_counts.get('Dark Green', 0)
     if dark_green_count > 0:
-        ax.text(20, 70, f'€{dark_green_value:,.0f}M\n({dark_green_count} players)', 
+        ax.text(24, 80, f'€{dark_green_value:,.0f}M\n({dark_green_count} players)', 
                 fontsize=12, weight='bold', color='darkgreen', ha='center',
                 bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
                          edgecolor='darkgreen', linewidth=2))
@@ -221,7 +221,7 @@ if show_zone_values:
     red_value = zone_values.get('Red', 0)
     red_count = zone_counts.get('Red', 0)
     if red_count > 0:
-        ax.text(26, -6, f'€{red_value:,.0f}M\n({red_count} players)', 
+        ax.text(29, -10, f'€{red_value:,.0f}M\n({red_count} players)', 
                 fontsize=10, weight='bold', color='darkred', ha='center',
                 bbox=dict(boxstyle='round,pad=0.8', facecolor='white', alpha=0.9, 
                          edgecolor='darkred', linewidth=2))
@@ -345,6 +345,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
