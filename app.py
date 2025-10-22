@@ -78,6 +78,7 @@ playtime_range = st.sidebar.slider(
     format_func=lambda x: "0" if x < 0 else str(x)
 )
 
+
 # Filtre 4: Années au club
 time_at_club_range = st.sidebar.slider(
     "Years at Club:",
@@ -341,6 +342,7 @@ with col4:
 st.markdown("---")
 if st.checkbox("Show filtered data"):
     st.dataframe(df_filtered[['Name', 'age', 'playing_time_pct_PL', 'Time', 'selection', 'value', 'zone']])
+
 
 
 
